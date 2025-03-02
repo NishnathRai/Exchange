@@ -1,5 +1,5 @@
 import { targets } from "../../targets/targets.js";
-import { Target , Command ,Parameter} from "./definations.js";
+import { Target , Command ,Parameter , APPEND_ARRAY_PARAMETER } from "./definations.js";
 ///
 let tlm_cmd_arr = [  ];
 /// 
@@ -10,15 +10,22 @@ async function readCmdAndTlm(){
     })
 }
 ///
-async function splitInLines(target){
-    const responce = await fetch(`../../targets/${target}/cmd_tlm/cmd.txt`);
+async function splitInLines(target,isCmd){
+    const responce = await fetch(`../../targets/${target}/cmd_tlm/${isCmd ? "cmd" : "tlm" }.txt`);
     const textInFile = await responce.text();
     const linesArr = textInFile.split("\n");
     return linesArr;
 }
 ///
 async function constructData(target) {
-    let linesArr = await splitInLines( target );
+    await constructCmd( target );
+    await constructTlm( target );
+}
+async function constructTlm(target){
+
+}
+async function constructCmd(target){
+    let linesArr = await splitInLines( target , true );
     let commandObj = null ;
     let preParameter = null ;
     linesArr.forEach( (line)=>{
@@ -55,11 +62,12 @@ async function constructData(target) {
         else if(lineArr[0]=="UNITS"){
             preParameter.units[lineArr[1]] = lineArr[2];
         }
+        else if(lineArr[0]=="APPEND_ARRAY_PARAMETER"){
+            preParameter = new APPEND_ARRAY_PARAMETER( ...lineArr );
+        }
         else{
-            console.log("some thing new command",lineArr);
+            if( lineArr[0]!="REQUIRED" ) console.log("some thing new command",lineArr);
         }
     });
-    console.log( tlm_cmd_arr );
 }
-
 export default readCmdAndTlm;

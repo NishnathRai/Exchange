@@ -30,6 +30,7 @@ The configuration follows a JSON-like structure:
                                 "defaultValue": 5,
                                 "dec": "Param dec",
                                 "units":{"unitName":"unitSymbol"},
+                                "endianness":"LITTLE_ENDIAN",
                                 "STATES": {
                                     "Key": "Val" ,
                                     "k1": "v1" 
