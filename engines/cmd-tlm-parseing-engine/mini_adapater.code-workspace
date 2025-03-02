@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "mini_adapater",
+			"path": "../../../mini_adapater"
+		},
+		{
+			"name": "frontEnd",
+			"path": "../.."
+		}
+	],
+	"settings": {}
+}
